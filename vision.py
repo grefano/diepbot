@@ -13,27 +13,37 @@ class element_danger:
         self.x = _x
         self.y = _y
         self.radius = _radius
-        self.type = "element_danger"
+        self.type = self#"element_danger"
+    stalk_list = [] # bullets, enemies, etc i still need to identify
+    color = colors["enemy"] # enemy, enemy_bullet, etc
 class enemy:
-    def __init__(self, _x, _y, _radius, _angle, _speed):
+    def __init__(self, _x, _y, _radius, _angle=0, _speed=0):
         self.x = _x
         self.y = _y
         self.radius = _radius
         self.angle = _angle
         self.speed = _speed
-        self.type = "enemy"
+        self.type = self#"enemy"
+    stalk_list = [] # bullets, enemies, etc i still need to identify
+    color = colors["enemy"] # enemy, enemy_bullet, etc
+    def check_is_me(self, _element):
+        if _element["radius"] < self.radius:
+            return False
+        return self.radius == _element["radius"]  
 class enemy_bullet:
-    def __init__(self, _x, _y, _radius, _angle, _speed):
+    def __init__(self, _x, _y, _radius, _angle=0, _speed=0):
         self.x = _x
         self.y = _y
         self.radius = _radius
         self.angle = _angle
         self.speed = _speed
-        self.type = "enemy_bullet"
+        self.type = self#"enemy_bullet"
+    stalk_list = []
+    color = colors["enemy"] # enemy, enemy_bullet, etc
+    def check_is_me(self, _element):
+        print(f"is me {self.radius} {_element['radius']}")
+        return abs(self.radius - _element["radius"]) <= 1
 
-stalking_enemies = []
-stalking_elements = [] # bullets, enemies, etc i still need to identify
-enemy_bullets = []
 
 
 screenW, screenH = pag.size()
@@ -88,8 +98,8 @@ def get_element_dimensions_from_point(_x, _y, _color):
     
     return {"xleft": xleft, "ytop": ytop, "xright": xright, "ybottom": ybottom}
 
-def get_element_spacial_info(_x, _y):
-    posmax = get_element_dimensions_from_point(_x, _y, colors["enemy"])
+def get_element_spacial_info(_x, _y, _color):
+    posmax = get_element_dimensions_from_point(_x, _y, _color)
     #print(f"color enemy: {colors["enemy"]}")
     #print(f"posmax: {posmax}")
     #print(f"cor 5: {pag.pixel(5, 5)}")
@@ -108,7 +118,7 @@ def get_element_spacial_info(_x, _y):
     raio = int(max(posmax["xright"]-posmax["xleft"], posmax["ybottom"]-posmax["ytop"])/2)
     #print(f"Raio errado: {raio}")
     y = ycenter - raio
-    while pag.pixelMatchesColor(xcenter, y, colors["enemy"], tolerance=5):
+    while pag.pixelMatchesColor(xcenter, y, _color, tolerance=5):
         y -= 1
     #print(f"_y {_y} y {y}")
     raio = ycenter-y
@@ -122,8 +132,8 @@ def element_stalk(_x, _y):
     # ja sabe que tem alguma coisa vermelha aqui
     # definindo dimensoes do objeto
     
-    info = get_element_spacial_info(_x, _y)
-    stalking_elements.append(element_danger(info["x"], info["y"], info["radius"]))
+    info = get_element_spacial_info(_x, _y, element_danger.color)
+    element_danger.stalk_list.append(element_danger(info["x"], info["y"], info["radius"]))
 
 
         

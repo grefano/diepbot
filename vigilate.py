@@ -6,7 +6,7 @@ from colors import*
 from vision import*
 
 def is_checking_defined_element(_x, _y): # verifica se o elemento que ta sendo verificado já foi adicionado a lista de elementos
-    for element in stalking_elements:
+    for element in element_danger.stalk_list:
         if _x >= element.x - element.radius and _x <= element.x + element.radius and _y >= element.y - element.radius and _y <= element.y + element.radius:
             return True
     return False
@@ -17,7 +17,7 @@ def vigilate_check(_x, _y):
         print(f"already checked {_x} {_y}")
         return True
 
-    element = pag.pixelMatchesColor(_x, _y, colors["enemy"], tolerance=5)
+    element = pag.pixelMatchesColor(_x, _y, element_danger.color, tolerance=5)
     if element:
         print(f"\n enemy at {_x} {_y}")
         pag.moveTo(_x, _y, duration=0.0)
