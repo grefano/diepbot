@@ -7,18 +7,8 @@ from vigilate import*
 
 
 def identify_element(_element):
-    print(f"type {_element.type}")
-    if isinstance(_element, element_danger):
-        print(f"is element_danger")
-        # verificar TAMANHO e bullet TEM CANHAO
-        if _element.radius > default_cannon_radius-2:
-            print(f"is enemy")
-            return enemy
-        else:
-            print(f"is enemy_bullet")
-            return enemy_bullet
-    print(f"is neither")
-    return False
+    
+    return _element.identify()
 
 def categorize_element(_element):
     identity = identify_element(_element)
@@ -36,12 +26,12 @@ def categorize_element(_element):
 def identify_elements():
     #indentifed_indexes = []
     e = 0
-    size = element_danger.stalk_list.__len__()
+    size = undentified_elements.__len__()
     while e < size:
-        categorized = categorize_element(element_danger.stalk_list[e])
+        categorized = categorize_element(undentified_elements.stalk_list[e])
         if categorized:
             #indentifed_indexes.append(e)
-            element_danger.stalk_list.pop(e)
+            undentified_elements.stalk_list.pop(e)
             e-=1
             size-=1
         e+=1

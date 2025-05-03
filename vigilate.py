@@ -6,7 +6,7 @@ from colors import*
 from vision import*
 
 def is_checking_defined_element(_x, _y): # verifica se o elemento que ta sendo verificado já foi adicionado a lista de elementos
-    for element in element_danger.stalk_list:
+    for element in undentified_elements:
         if _x >= element.x - element.radius and _x <= element.x + element.radius and _y >= element.y - element.radius and _y <= element.y + element.radius:
             return True
     return False
@@ -21,7 +21,7 @@ def vigilate_check(_x, _y):
     if element:
         print(f"\n enemy at {_x} {_y}")
         pag.moveTo(_x, _y, duration=0.0)
-        element_stalk(_x, _y)
+        element_stalk(_x, _y, element_danger)
         return True
     else:
         return False
@@ -38,10 +38,6 @@ def vigilate_screen_borders():
                 #print(f"X: {x} Y: {y} side {hside}")
                 #pag.moveTo(x, y, duration=0.0)
                 vigilate_check(x, y)
-                if hside == 1:
-                    continue
-
-    return True
 
     for vside in range(-1, 2, 2):
         ymax = int(screenH/2 + vside*screenH/2)

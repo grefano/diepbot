@@ -19,8 +19,8 @@ def update_elements():
 
     identify_elements()
 
-    for e in range(0, element_danger.stalk_list.__len__()):
-        print(f"stalkel radius{element_danger.stalk_list[e].radius}")
+    for e in range(0, undentified_elements.__len__()):
+        print(f"stalkel radius{undentified_elements[e].radius}")
     for e in range(0, enemy.stalk_list.__len__()):
         print(f"enemy radius {enemy.stalk_list[e].radius}")
     for e in range(0, enemy_bullet.stalk_list.__len__()):

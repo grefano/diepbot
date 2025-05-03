@@ -7,6 +7,7 @@ from colors import*
 default_cannon_radius = 19
 default_bullet_radius = 8
 
+undentified_elements = []
 
 class element_danger:
     def __init__(self, _x, _y, _radius):
@@ -14,8 +15,15 @@ class element_danger:
         self.y = _y
         self.radius = _radius
         self.type = self#"element_danger"
-    stalk_list = [] # bullets, enemies, etc i still need to identify
+    #stalk_list = [] # bullets, enemies, etc i still need to identify
     color = colors["enemy"] # enemy, enemy_bullet, etc
+    def identify(self):
+        print(f"type {self.type}")
+        if self.radius > default_cannon_radius-2:
+            return enemy
+        else:
+            return enemy_bullet
+
 class enemy:
     def __init__(self, _x, _y, _radius, _angle=0, _speed=0):
         self.x = _x
@@ -128,12 +136,13 @@ def get_element_spacial_info(_x, _y, _color):
 
     return {"x": xcenter, "y": ycenter, "radius": raio}
 
-def element_stalk(_x, _y):
+def element_stalk(_x, _y, _class):
     # ja sabe que tem alguma coisa vermelha aqui
     # definindo dimensoes do objeto
     
-    info = get_element_spacial_info(_x, _y, element_danger.color)
-    element_danger.stalk_list.append(element_danger(info["x"], info["y"], info["radius"]))
+    info = get_element_spacial_info(_x, _y, _class.color)
+    #element_danger.stalk_list.append(element_danger(info["x"], info["y"], info["radius"]))
 
+    undentified_elements.append(_class(info["x"], info["y"], info["radius"]))
 
         
