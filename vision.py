@@ -100,33 +100,3 @@ def element_stalk(_x, _y, _class):
 
         
 
-def look_screen_borders(_func_check):
-    border = 100
-    diststep = 12
-    elements = []
-    for hside in range(-1, 2, 2):
-        xmax = int(screenW/2 + hside*screenW/2)
-        for x in range(xmax, xmax - hside*border, -hside*diststep):
-            x = min(x, screenW-1)
-            for y in range(0, screenH, diststep):
-                #print(f"X: {x} Y: {y} side {hside}")
-                #pag.moveTo(x, y, duration=0.0)
-                posfound = {"xfound": x, "yfound": y}
-                check = _func_check(x, y) 
-                if check != False:
-                    posfound.update({"check": check})
-                    elements.append(posfound)
-                
-                #vigilate_check(x, y)
-
-    for vside in range(-1, 2, 2):
-        ymax = int(screenH/2 + vside*screenH/2)
-        for y in range(ymax, ymax - vside*border, -vside*diststep):
-            y = min(y, screenH-1)
-            for x in range(0, screenW, diststep):                
-                posfound = {"xfound": x, "yfound": y}
-                check = _func_check(x, y) 
-                if check != False:
-                    posfound.update({"check": check})
-                    elements.append(posfound)
-    return elements

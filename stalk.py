@@ -2,7 +2,7 @@
 
 
 #from vision import*
-from vigilate import*
+from look import*
 
 
 
@@ -44,20 +44,21 @@ def stalk_elements():
     stalk(enemy_bullet)
 
 def stalk(_class):
-    for b in range(0, _class.stalk_list.__len__()):
+    #for b in range(0, _class.stalk_list.__len__()):
+    for element in _class.stalk_list:
         distmax = default_info["radius"]["bullet"]*2*4
         for dist in range(0, distmax, 12):
             for ang in range(0, 360, 10):
-                x, y = get_polar_coords(_class.stalk_list[b].x, _class.stalk_list[b].y, dist, ang)
+                x, y = get_polar_coords(element.x, element.y, dist, ang)
                 pag.moveTo(x, y)
 
-                element = pag.pixelMatchesColor(x, y, _class.color, tolerance=5)
-                if element:    
+                here = pag.pixelMatchesColor(x, y, _class.color, tolerance=5)
+                if here:    
                     print(f"stalking {_class.__name__}, one at {x} {y}")
                     info = get_element_spacial_info(x, y, _class.color)
-                    isSame = _class.stalk_list[b].check_is_me(info)
+                    isSame = element.check_is_me(info)
                     #isSame = compare_bullet_element(_class.stalk_list[b], info)
-                    pag.moveTo(_class.stalk_list[b].x, _class.stalk_list[b].y, duration=0.0)
+                    pag.moveTo(element.x, element.y, duration=0.0)
                     print(f"is same {isSame}, {_class.__name__}")
                     if isSame:
                         pag.moveTo(info["x"], info["y"], duration=1.0)
