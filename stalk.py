@@ -1,7 +1,7 @@
-import pyautogui as pag
+#import pyautogui as pag
 
 
-from vision import*
+#from vision import*
 from vigilate import*
 
 
@@ -45,7 +45,7 @@ def stalk_elements():
 
 def stalk(_class):
     for b in range(0, _class.stalk_list.__len__()):
-        distmax = default_bullet_radius*2*4
+        distmax = default_info["radius"]["bullet"]*2*4
         for dist in range(0, distmax, 12):
             for ang in range(0, 360, 10):
                 x, y = get_polar_coords(_class.stalk_list[b].x, _class.stalk_list[b].y, dist, ang)

@@ -2,55 +2,8 @@
 
 import pyautogui as pag
 
-from colors import*
+from elements import*
 
-default_cannon_radius = 19
-default_bullet_radius = 8
-
-undentified_elements = []
-
-class element_danger:
-    def __init__(self, _x, _y, _radius):
-        self.x = _x
-        self.y = _y
-        self.radius = _radius
-        self.type = self#"element_danger"
-    #stalk_list = [] # bullets, enemies, etc i still need to identify
-    color = colors["enemy"] # enemy, enemy_bullet, etc
-    def identify(self):
-        print(f"type {self.type}")
-        if self.radius > default_cannon_radius-2:
-            return enemy
-        else:
-            return enemy_bullet
-
-class enemy:
-    def __init__(self, _x, _y, _radius, _angle=0, _speed=0):
-        self.x = _x
-        self.y = _y
-        self.radius = _radius
-        self.angle = _angle
-        self.speed = _speed
-        self.type = self#"enemy"
-    stalk_list = [] # bullets, enemies, etc i still need to identify
-    color = colors["enemy"] # enemy, enemy_bullet, etc
-    def check_is_me(self, _element):
-        if _element["radius"] < self.radius:
-            return False
-        return self.radius == _element["radius"]  
-class enemy_bullet:
-    def __init__(self, _x, _y, _radius, _angle=0, _speed=0):
-        self.x = _x
-        self.y = _y
-        self.radius = _radius
-        self.angle = _angle
-        self.speed = _speed
-        self.type = self#"enemy_bullet"
-    stalk_list = []
-    color = colors["enemy"] # enemy, enemy_bullet, etc
-    def check_is_me(self, _element):
-        print(f"is me {self.radius} {_element['radius']}")
-        return abs(self.radius - _element["radius"]) <= 1
 
 
 
@@ -146,3 +99,34 @@ def element_stalk(_x, _y, _class):
     undentified_elements.append(_class(info["x"], info["y"], info["radius"]))
 
         
+
+def look_screen_borders(_func_check):
+    border = 100
+    diststep = 12
+    elements = []
+    for hside in range(-1, 2, 2):
+        xmax = int(screenW/2 + hside*screenW/2)
+        for x in range(xmax, xmax - hside*border, -hside*diststep):
+            x = min(x, screenW-1)
+            for y in range(0, screenH, diststep):
+                #print(f"X: {x} Y: {y} side {hside}")
+                #pag.moveTo(x, y, duration=0.0)
+                posfound = {"xfound": x, "yfound": y}
+                check = _func_check(x, y) 
+                if check != False:
+                    posfound.update({"check": check})
+                    elements.append(posfound)
+                
+                #vigilate_check(x, y)
+
+    for vside in range(-1, 2, 2):
+        ymax = int(screenH/2 + vside*screenH/2)
+        for y in range(ymax, ymax - vside*border, -vside*diststep):
+            y = min(y, screenH-1)
+            for x in range(0, screenW, diststep):                
+                posfound = {"xfound": x, "yfound": y}
+                check = _func_check(x, y) 
+                if check != False:
+                    posfound.update({"check": check})
+                    elements.append(posfound)
+    return elements

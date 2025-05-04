@@ -7,6 +7,8 @@ def create_color(_name, _r, _g, _b):
 create_color("black", 0, 0, 0)
 create_color("white", 255, 255, 255)
 create_color("vscodebg", 39, 40, 34)
+create_color("cannon_mine", 0, 178, 255)
+create_color("mine_bullet", 0, 178, 255)
 create_color("enemy", 241, 78, 84)
 create_color("enemy_bullet", 241, 78, 84)
 create_color("cano", 153, 153, 153)
