@@ -4,10 +4,10 @@ import pyautogui as pag
 
 from elements import*
 
-
-
-
+gamescreen = {}
 screenW, screenH = pag.size()
+
+
 
 def get_polar_coords(_x, _y, _dist, _ang):
     cos = np.cos(np.deg2rad(_ang))
@@ -22,40 +22,20 @@ def get_polar_coords(_x, _y, _dist, _ang):
 
 def get_element_dimensions_from_point(_x, _y, _color):
     xleft = _x
-    #pag.moveTo(screenW/2, screenH/2, duration=0.0)
-    #pag.moveTo(xleft, _y, duration=1.0)
-    #print(f"xleft: {xleft} y: {_y}")
-    #print(f"xleft enemy: {pag.pixelMatchesColor(xleft, _y, _color, tolerance=5)}")
-    #print(f"color: {pag.pixel(xleft, _y)}")
     while pag.pixelMatchesColor(xleft, _y, _color, tolerance=5):
         xleft -= 1
-        #print(f"xleft: {xleft}")
-        #pag.moveTo(xleft, _y, duration=0.0)
 
     xright  = _x
-    #pag.moveTo(screenW/2, screenH/2, duration=0.0)
-    #pag.moveTo(xright, _y, duration=1.0)
-
     while pag.pixelMatchesColor(xright, _y, _color, tolerance=5):
         xright += 1
-        #print(f"xright: {xright}")
-        #pag.moveTo(xright, _y, duration=0.0)
 
     ytop = _y
-    #pag.moveTo(screenW/2, screenH/2, duration=0.0)
-    #pag.moveTo(_x, ytop, duration=1.0)
     while pag.pixelMatchesColor(_x, ytop, _color, tolerance=5):
         ytop -= 1
-        #print(f"ytop: {ytop}")
-        #pag.moveTo(_x, ytop, duration=0.0)
 
     ybottom = _y
-    #pag.moveTo(screenW/2, screenH/2, duration=0.0)
-    #pag.moveTo(_x, ybottom, duration=1.0)
     while pag.pixelMatchesColor(_x, ybottom, _color, tolerance=5):
         ybottom += 1
-        #print(f"ybottom: {ybottom}")
-        #pag.moveTo(_x, ybottom, duration=0.0)
     
     return {"xleft": xleft, "ytop": ytop, "xright": xright, "ybottom": ybottom}
 
@@ -89,11 +69,53 @@ def get_element_spacial_info(_x, _y, _color):
 
     return {"x": xcenter, "y": ycenter, "radius": raio}
 
+class game_screen:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.width = 0
+        self.height = 0
+        self.gameX = 0
+        self.gameY = 0
+    def __str__(self):
+        return f"x {self.x} y {self.y} width {self.width} height {self.height} gamex {self.gameX} gamey {self.gameY}"
+gamescreen = game_screen()
+
+def set_gamescreen():
+    for dist in range(1, 60, 15):
+        for ang in range(0, 360, 10):
+            x, y = get_polar_coords(int(screenW/2), int(screenH/2), dist, ang)
+            pag.moveTo(x,y,0.0)
+            print(f" {pag.pixel(x, y)} {colors["cannon_mine"]}")
+            if pag.pixelMatchesColor(x, y, colors["cannon_mine"], tolerance=5):
+                print("matches")
+                info = get_element_spacial_info(x, y, colors["cannon_mine"])
+                pag.moveTo(x, y, 0.5)
+
+
+                cannonYOfs = info["y"]-screenH/2
+                #global gamescreen
+                gamescreen.x = 0
+                gamescreen.y = int(cannonYOfs*2)
+                gamescreen.width = int(screenW)
+                gamescreen.height = int(screenH-cannonYOfs*2)
+                gamescreen.gameX = int(gamescreen.x + gamescreen.width/2)
+                gamescreen.gameY = int(gamescreen.y + gamescreen.height/2)
+                
+                
+
+                
+
+                return
+
+
+
+
 def element_stalk(_x, _y, _class):
     # ja sabe que tem alguma coisa vermelha aqui
     # definindo dimensoes do objeto
     
-    info = get_element_spacial_info(_x, _y, _class.color)
+    info = get_element_spacial_info(_x, _y, map_color_element.get_color(_class.__name__))
     #element_danger.stalk_list.append(element_danger(info["x"], info["y"], info["radius"]))
 
     undentified_elements.append(_class(info["x"], info["y"], info["radius"]))

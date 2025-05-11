@@ -46,16 +46,17 @@ def stalk_elements():
 def stalk(_class):
     #for b in range(0, _class.stalk_list.__len__()):
     for element in _class.stalk_list:
-        distmax = default_info["radius"]["bullet"]*2*4
+        distmax = defaultInfo["radius"]["bullet"]*2*4
         for dist in range(0, distmax, 12):
             for ang in range(0, 360, 10):
                 x, y = get_polar_coords(element.x, element.y, dist, ang)
                 pag.moveTo(x, y)
-
-                here = pag.pixelMatchesColor(x, y, _class.color, tolerance=5)
+                
+                color = map_color_element.get_color(_class)
+                here = pag.pixelMatchesColor(x, y, color, tolerance=5)
                 if here:    
                     print(f"stalking {_class.__name__}, one at {x} {y}")
-                    info = get_element_spacial_info(x, y, _class.color)
+                    info = get_element_spacial_info(x, y, color)
                     isSame = element.check_is_me(info)
                     #isSame = compare_bullet_element(_class.stalk_list[b], info)
                     pag.moveTo(element.x, element.y, duration=0.0)

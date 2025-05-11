@@ -7,8 +7,8 @@ def create_color(_name, _r, _g, _b):
 create_color("black", 0, 0, 0)
 create_color("white", 255, 255, 255)
 create_color("vscodebg", 39, 40, 34)
-create_color("cannon_mine", 0, 178, 255)
-create_color("mine_bullet", 0, 178, 255)
+create_color("cannon_mine", 0, 178, 225)
+create_color("mine_bullet", 0, 178, 225)
 #create_color("enemy", 241, 78, 84)
 #create_color("enemy_bullet", 241, 78, 84)
 create_color("cano", 153, 153, 153)
@@ -24,7 +24,10 @@ class mapColorElement:
         self.elements[_color_rgb] = _class_name
         self.colors[_class_name] = _color_rgb
     def get_element(self, _color):
+        #print(f"color {_color}")
         if _color in self.elements:
+            print(self.elements[_color])
+            
             return self.elements[_color]
         else:
             return -1
@@ -42,6 +45,13 @@ map_color_element.add("enemy_bullet", (241, 78, 84))
 map_color_element.add("shape_square", (255, 232, 105))
 map_color_element.add("shape_triangle", (252, 118, 119))
 map_color_element.add("shape_pentagon", (118, 141, 252))
+
+for atributo in map_color_element.elements.items():
+     # and not callable(getattr(map_color_element.elements, atributo))
+    #valor = getattr(map_color_element.elements, atributo)
+    print(f'{atributo}')
+
+
 
 
 def find_pixel_by_color_polar(_color_name, _x, _y, _dist_min, _dist_max, _params={"step_ang": 1, "step_dist": 1}):

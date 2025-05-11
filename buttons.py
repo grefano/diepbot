@@ -3,7 +3,8 @@ import pyautogui as pag
 screenW, screenH = pag.size()
 
 btncoords = {
-    "play": {"x": screenW/2, "y": screenH-120}
+    "play": {"x": screenW/2, "y": screenH-70},
+    "retry": {"x": screenW/2+50, "y": screenH-80*2.3}
 }
 
 def move_and_click(_btn):

@@ -3,8 +3,8 @@ from colors import*
 
 import json
 
-with open("default_info.json", "r") as f:
-    default_info = json.load(f)
+with open("default.json", "r") as f:
+    defaultInfo = json.load(f)
 
 
 
@@ -36,7 +36,7 @@ class element_danger(element_undefined):
     #color = colors["enemy"] # enemy, enemy_bullet, etc
     def identify(self):
         print(f"type {self.type}")
-        if self.radius > default_info["radius"]["cannon"] - 2:
+        if self.radius > defaultInfo["radius"]["cannon"] - 2:
             return enemy
         else:
             return enemy_bullet
@@ -107,3 +107,7 @@ def get_all_headclasses(_class):
     subclasses = _class.__subclasses__()
     heads = [subclass for subclass in subclasses if not subclass.__subclasses__()]
     return heads        
+
+
+def str_to_element_class(_str):
+    return globals().get(_str)

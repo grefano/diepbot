@@ -9,6 +9,7 @@ import pyautogui as pag
 
 from vision import*
 
+#from default_info import (gameX, gameY)
 
 #def is_checking_defined_element(_x, _y): # verifica se o elemento que ta sendo verificado já foi adicionado a lista de elementos
 #    for element in undentified_elements:
@@ -21,11 +22,14 @@ def look_screen_borders(_func_check):
     border = 100
     diststep = 12
     elements = []
+
     for hside in range(-1, 2, 2):
-        xmax = int(screenW/2 + hside*screenW/2)
+        
+        
+        xmax = int(gamescreen.gameX + hside*gamescreen.width/2)
         for x in range(xmax, xmax - hside*border, -hside*diststep):
-            x = min(x, screenW-1)
-            for y in range(0, screenH, diststep):
+            x = min(x, gamescreen.width-1)
+            for y in range(0, gamescreen.height, diststep):
                 #print(f"X: {x} Y: {y} side {hside}")
                 #pag.moveTo(x, y, duration=0.0)
                 posfound = {"xfound": x, "yfound": y}
@@ -37,10 +41,11 @@ def look_screen_borders(_func_check):
                 #vigilate_check(x, y)
 
     for vside in range(-1, 2, 2):
-        ymax = int(screenH/2 + vside*screenH/2)
+        ymax = int(gamescreen.gameY + vside*gamescreen.height/2)
         for y in range(ymax, ymax - vside*border, -vside*diststep):
-            y = min(y, screenH-1)
-            for x in range(0, screenW, diststep):                
+            y = min(y, gamescreen.height-1)
+            for x in range(0, gamescreen.width, diststep):       
+                #pag.moveTo(x, y, duration=0.0)
                 posfound = {"xfound": x, "yfound": y}
                 check = _func_check(x, y) 
                 if check != False:
@@ -55,20 +60,26 @@ def is_looking_old_element(_x, _y):
     for headclass in headclasses:
         color = map_color_element.get_color(headclass.__name__)
         if pag.pixelMatchesColor(_x, _y, color, tolerance=5): 
-            for element in headclass.stalk_list:
+            for e in headclass.stalk_list:
                 info = get_element_spacial_info(_x, _y, color)
-                isMe = element.check_is_me(info)
+                isMe = e.check_is_me(info)
                 if isMe:
                     return True
     return False
 
 def look_element_check(_x, _y):
     # preciso saber se esse elemento ja foi olhado
+    #print(f"pos check {_x} {_y}")
     if is_looking_old_element(_x, _y):
         return False
     
     color = pag.pixel(_x, _y)
-    classe = map_color_element.get_class(color)
+    classe = map_color_element.get_element(color)
+    if classe == -1:
+        return False
+    
+    classe = str_to_element_class(classe)
+    print(f"classe {classe.__name__}")
     if classe.__base__ == element_undefined:
         print(f"lookcheck undefined at {_x} {_y}")
         element_stalk(_x, _y, element_undefined)
