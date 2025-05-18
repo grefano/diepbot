@@ -1,8 +1,10 @@
 # IN-GAME vision related code
-
+print(f"vision name {__name__}")
+#if __name__ == '__main__':
 import pyautogui as pag
 
 from elements import*
+import numpy as np
 
 gamescreen = {}
 screenW, screenH = pag.size()

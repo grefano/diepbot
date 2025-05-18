@@ -1,3 +1,4 @@
+
 import pyautogui as pag
 import numpy as np
 
@@ -47,7 +48,7 @@ map_color_element.add("shape_triangle", (252, 118, 119))
 map_color_element.add("shape_pentagon", (118, 141, 252))
 
 for atributo in map_color_element.elements.items():
-     # and not callable(getattr(map_color_element.elements, atributo))
+    # and not callable(getattr(map_color_element.elements, atributo))
     #valor = getattr(map_color_element.elements, atributo)
     print(f'{atributo}')
 

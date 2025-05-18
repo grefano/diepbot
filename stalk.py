@@ -1,5 +1,6 @@
-#import pyautogui as pag
-
+    #import pyautogui as pag
+print(f"stalk name {__name__}")
+#if __name__ == '__main__':
 
 #from vision import*
 from look import*

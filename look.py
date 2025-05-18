@@ -1,4 +1,6 @@
-# LOOK DANGER ELEMENTS (ENEMIES AND BULLETS)
+    # LOOK DANGER ELEMENTS (ENEMIES AND BULLETS)
+print(f"look name {__name__}")
+#if __name__ == '__main__':
 
 import pyautogui as pag
 
@@ -20,7 +22,7 @@ from vision import*
 
 def look_screen_borders(_func_check):
     border = 100
-    diststep = 12
+    diststep = 30
     elements = []
 
     for hside in range(-1, 2, 2):
@@ -32,6 +34,7 @@ def look_screen_borders(_func_check):
             for y in range(0, gamescreen.height, diststep):
                 #print(f"X: {x} Y: {y} side {hside}")
                 #pag.moveTo(x, y, duration=0.0)
+                #print(f"h{hside} {x} {y}")
                 posfound = {"xfound": x, "yfound": y}
                 check = _func_check(x, y) 
                 if check != False:
@@ -46,6 +49,7 @@ def look_screen_borders(_func_check):
             y = min(y, gamescreen.height-1)
             for x in range(0, gamescreen.width, diststep):       
                 #pag.moveTo(x, y, duration=0.0)
+                #print(f"v{vside} {x} {y}")
                 posfound = {"xfound": x, "yfound": y}
                 check = _func_check(x, y) 
                 if check != False:
@@ -69,7 +73,11 @@ def is_looking_old_element(_x, _y):
 
 def look_element_check(_x, _y):
     # preciso saber se esse elemento ja foi olhado
-    #print(f"pos check {_x} {_y}")
+    _x = max(min(_x, screenW-1), 0)
+    _y = max(min(_y, screenH-1), 0)
+    pag.moveTo(_x, _y)
+    
+    print(f"pos check {_x} {_y}")
     if is_looking_old_element(_x, _y):
         return False
     
@@ -78,6 +86,8 @@ def look_element_check(_x, _y):
     if classe == -1:
         return False
     
+
+
     classe = str_to_element_class(classe)
     print(f"classe {classe.__name__}")
     if classe.__base__ == element_undefined:
@@ -88,7 +98,7 @@ def look_element_check(_x, _y):
         element_stalk(_x, _y, classe)
     
     return True
-   
+
 
 #def vigilate_check(_x, _y):
 #    #print(f"checking {_x} {_y}")
